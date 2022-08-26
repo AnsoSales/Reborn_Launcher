@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -13,13 +14,15 @@ import java.awt.GraphicsDevice;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+import java.nio.DoubleBuffer;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -35,17 +38,16 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+
+
 public class reborn extends JFrame implements ActionListener {
 
     private static final String testURL = "https://www.google.com.br";
-    private JRadioButton EURadioButton = new JRadioButton("EU Server");
-    private JLabel EUButtonlabel = new JLabel();
-    private JLabel BRButtonlabel = new JLabel();
-
-    private JRadioButton BRRadioButton = new JRadioButton("BR Server");
-    // private JWindow statusJWindow = new JWindow();
-    private JLabel updateStatusLabel = new JLabel();
-    private JButton btnNewButton = new JButton("Start Game");
+    private JRadioButton EURadioButton;
+    private JPanel backgroundPanel;
+    private JRadioButton BRRadioButton ;;
+    private JLabel updateStatusLabel = new JLabel("Checking for updates");
+    private JButton btnNewButton ;
     private ButtonGroup Gbutton = new ButtonGroup();
     private JProgressBar progressBar = new JProgressBar(0, 100);
 
@@ -59,8 +61,8 @@ public class reborn extends JFrame implements ActionListener {
             public void run() {
                 try {
                     reborn window = new reborn();
-                    window.frmRebornFightersLauncher.setTitle("Reborn Launcher");
-                    window.frmRebornFightersLauncher.setVisible(true);
+                    // window.frmRebornFightersLauncher.setTitle("Reborn Launcher");
+                
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -113,8 +115,7 @@ public class reborn extends JFrame implements ActionListener {
 
     private void initialize() throws IOException, InterruptedException {
 
-        Gbutton.add(BRRadioButton);
-        Gbutton.add(EURadioButton);
+        
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         // int width = 1920;
@@ -122,22 +123,27 @@ public class reborn extends JFrame implements ActionListener {
         // int height = 1080;
         System.out.println(width);
         System.out.println(height);
-        this.frmRebornFightersLauncher = new JFrame();
+        this.frmRebornFightersLauncher = new JFrame("Reborn Launcher");
         this.frmRebornFightersLauncher.setResizable(false);
-        this.frmRebornFightersLauncher.setTitle("Reborn Launcher");
-        // this.frmRebornFightersLauncher.setBounds(0, 0, 580, 482);
-        this.frmRebornFightersLauncher.setBounds(0, 0, 580, 482);
-        System.out.println(height);
-        JLabel backgroundLabel = new JLabel();
 
-        JPanel backgroundPanel = new JPanel();
-        backgroundPanel.setBounds(0, -40, 580, 482);
-        ImageIcon background = new ImageIcon(reborn.class.getResource("/launcher/launcher_oficial_cleanup.png"));
+        this.frmRebornFightersLauncher.setDefaultCloseOperation(3);
+        try {
+            this.frmRebornFightersLauncher.setIconImage(ImageIO
+                    .read(reborn.class.getClassLoader().getResourceAsStream("resources/reborn icon.png")));
 
-        background = new ImageIcon(
-                background.getImage().getScaledInstance(backgroundPanel.getWidth(), backgroundPanel.getHeight(), 1));
-        backgroundLabel.setIcon(background);
-        backgroundPanel.add(backgroundLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        this.frmRebornFightersLauncher.setSize(580, 480);
+        this.frmRebornFightersLauncher.setLocation(width / 2 - this.frmRebornFightersLauncher.getWidth() / 2,
+                height / 2 - this.frmRebornFightersLauncher.getHeight() / 2);
+
+        this.backgroundPanel = new JPanel(null, true);
+        
+        
+
 
         int stylefont = 0, fontsize = 12;
         String fonte = "Baskerville Old Face";
@@ -148,111 +154,121 @@ public class reborn extends JFrame implements ActionListener {
         String classVersion = tempClassVersion;
         String resourceVersion = tempResourceVersion;
 
-        this.frmRebornFightersLauncher.setDefaultCloseOperation(3);
-        ImageIcon icone = new ImageIcon(reborn.class.getResource("/launcher/reborn icon.png"));
-        this.frmRebornFightersLauncher.setIconImage(icone.getImage());
-        this.frmRebornFightersLauncher.getContentPane().setLayout((LayoutManager) null);
+        ImageIcon icone = new ImageIcon(reborn.class.getResource("/resources/reborn icon.png"));
+    
 
-        JLabel classLabel = new JLabel("          CLASS VERSION: " + classVersion);
+        JLabel classLabel = new JLabel("CLASS VERSION: " + classVersion);
         classLabel.setForeground(Color.decode("#808080"));
         classLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-        // classLabel.setBackground(Color.BLACK);
-        classLabel.setBounds(374, -7, 200, 30);
+        classLabel.setHorizontalAlignment(4);
+        
+        classLabel.setBounds(360, 4, 160, 12);
         classLabel.setFont(new Font(fonte, stylefont, fontsize));
         classLabel.setVisible(true);
+        this.backgroundPanel.add(classLabel);
 
         JLabel resourceLabel = new JLabel("RESOURCE VERSION: " + resourceVersion);
         resourceLabel.setForeground(Color.decode("#808080"));
         resourceLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-        resourceLabel.setBounds(375, 7, 200, 30);
+        resourceLabel.setBounds(360, 16, 160, 14);
         resourceLabel.setFont(new Font(fonte, stylefont, fontsize));
         resourceLabel.setVisible(true);
+        this.backgroundPanel.add(resourceLabel);
 
-        btnNewButton.setBounds(175, 350, 250, 50);
-        btnNewButton.setEnabled(false);
-        btnNewButton.setForeground(Color.decode("#808080"));
-        btnNewButton.setBackground(Color.decode("#f0f0f0"));
-        btnNewButton.setOpaque(true);
-        btnNewButton.setContentAreaFilled(true);
-        btnNewButton.setIcon(icone);
-        btnNewButton.addActionListener(this);
+        this.btnNewButton = new JButton("Start Game");
+        this.btnNewButton.setSize(270, 46);
+        this.btnNewButton.setLocation(this.frmRebornFightersLauncher.getWidth() / 2 - this.btnNewButton.getWidth() / 2,
+                this.frmRebornFightersLauncher.getHeight() - 105 - this.btnNewButton.getHeight() / 2);
+        this.btnNewButton.setEnabled(false);
+        this.btnNewButton.setForeground(Color.decode("#808080"));
+        this.btnNewButton.setBackground(Color.decode("#f0f0f0"));
+        this.btnNewButton.setOpaque(true);
+        this.btnNewButton.setContentAreaFilled(true);
+        this.btnNewButton.setIcon(icone);
+        this.btnNewButton.addActionListener(this);
+        this.btnNewButton.setVisible(true);
 
-        progressBar.setBounds(45, 10, 312, 17);
+        this.backgroundPanel.add(this.btnNewButton);
+        progressBar.setBounds(44, 9, 315, 20);
         progressBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         progressBar.setStringPainted(true);
-        // progressBar.setBackground(Color.WHITE);
+        progressBar.setIndeterminate(true);
         progressBar.setOpaque(false);
 
         progressBar.setBorderPainted(false);
         progressBar.setString(this.updateStatusLabel.getText());
         progressBar.setFont(new Font(fonte, 30, 14));
-        progressBar.setForeground(Color.decode("#800000"));
+        progressBar.setForeground(new Color(128, 0, 0));
         progressBar.setBackground(Color.decode("#107ed6"));
-        ImageIcon radioIconUnselected = new ImageIcon(reborn.class.getResource("/launcher/radiobutton.png"));
-        radioIconUnselected = new ImageIcon(radioIconUnselected.getImage().getScaledInstance(14, 14, 1));
 
-        ImageIcon radioIconRollover = new ImageIcon(reborn.class.getResource("/launcher/selectedbutton_hover.png"));
-        radioIconRollover = new ImageIcon(radioIconRollover.getImage().getScaledInstance(15, 15, 1));
+        this.backgroundPanel.add(progressBar);
 
-        ImageIcon radioIconSelected = new ImageIcon(reborn.class.getResource("/launcher/selectedbutton.png"));
+        ImageIcon radioIconUnselected = new ImageIcon(reborn.class.getResource("/resources/checkbox_off0.png"));
 
-        BRRadioButton.setBounds(59, 344,
-                100, 30);
-        // System.out.println(100 * (width / 1920));
-        int textgap = 2;
-        BRButtonlabel.setFont(new Font(null, stylefont, fontsize));
-        BRButtonlabel.setText("BR Server");
+        ImageIcon radioIconSelected = new ImageIcon(reborn.class.getResource("/resources/checkbox_on0.png"));
 
-        BRRadioButton.setFocusPainted(false);
-        BRRadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
-        BRRadioButton.setSelected(true);
-        BRRadioButton.setForeground(Color.BLACK);
-        BRRadioButton.setOpaque(false);
-        BRRadioButton.setContentAreaFilled(true);
-        BRRadioButton.setIcon(radioIconUnselected);
-        BRRadioButton.setIconTextGap(textgap);
-        BRRadioButton.setSelectedIcon(radioIconSelected);
-        BRRadioButton.setBackground(Color.GRAY);
-        // BRRadioButton.add(BRButtonlabel);
-        BRRadioButton.setRolloverSelectedIcon(radioIconRollover);
+        ImageIcon radioIconRollover = new ImageIcon(reborn.class.getResource("/resources/checkbox_off1.png"));
 
-        EUButtonlabel.setFont(new Font(null, stylefont, fontsize));
-        EUButtonlabel.setText("EU Server");
+        ImageIcon radioIconRolloverSelected = new ImageIcon(reborn.class.getResource("/resources/checkbox_on1.png"));
+        this.BRRadioButton = new JRadioButton("BR Server");
+        this.BRRadioButton.setBounds(59, 350, 100, 30);
+        Gbutton.add(BRRadioButton);
+       
+        this.BRRadioButton.setFocusPainted(false);
+        this.BRRadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.BRRadioButton.setSelected(true);
+        this.BRRadioButton.setForeground(Color.BLACK);
+        this.BRRadioButton.setOpaque(false);
+        this.BRRadioButton.setContentAreaFilled(true);
 
-        EURadioButton.setBounds(60, 362, 100, 30);
-        EURadioButton.setFocusPainted(false);
-        EURadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
-        EURadioButton.setForeground(Color.BLACK);
-        EURadioButton.setOpaque(false);
-        EURadioButton.setContentAreaFilled(true);
-        EURadioButton.setIcon(radioIconUnselected);
-        EURadioButton.setIconTextGap(textgap);
-        EURadioButton.setSelectedIcon(radioIconSelected);
-        // EURadioButton.add(EUButtonlabel);
-        EURadioButton.setRolloverSelectedIcon(radioIconRollover);
+        this.BRRadioButton.setBackground(Color.GRAY);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBounds(10, 40, 540,
-                300);
-        panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+        this.BRRadioButton.setVerticalAlignment(0);
+        this.BRRadioButton.setHorizontalAlignment(0);
+
+        this.BRRadioButton.setIcon(radioIconUnselected);
+        this.BRRadioButton.setSelectedIcon(radioIconSelected);
+        this.BRRadioButton.setRolloverIcon(radioIconRollover);
+        this.BRRadioButton.setRolloverSelectedIcon(radioIconRolloverSelected);
+        this.BRRadioButton.setVisible(true);
+        this.backgroundPanel.add(this.BRRadioButton);
+
+        this.EURadioButton = new JRadioButton("EU Server");
+        Gbutton.add(EURadioButton);
+        this.EURadioButton.setBounds(60, 370, 100, 30);
+        this.EURadioButton.setFocusPainted(false);
+        this.EURadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.EURadioButton.setVerticalAlignment(0);
+        this.EURadioButton.setHorizontalAlignment(0);
+
+        this.EURadioButton.setForeground(Color.BLACK);
+        this.EURadioButton.setOpaque(false);
+        this.EURadioButton.setContentAreaFilled(true);
+
+        this.EURadioButton.setIcon(radioIconUnselected);
+        this.EURadioButton.setSelectedIcon(radioIconSelected);
+        this.EURadioButton.setRolloverIcon(radioIconRollover);
+        this.EURadioButton.setRolloverSelectedIcon(radioIconRolloverSelected);
+
+        this.backgroundPanel.add(this.EURadioButton);
 
         if (netIsAvailable()) {
-            ImageIcon icon = new ImageIcon(reborn.class.getResource("/launcher/background_launcher.png"));
-            icon = new ImageIcon(icon.getImage().getScaledInstance(panel.getWidth(), panel.getHeight(), 1));
+            ImageIcon icon = new ImageIcon(reborn.class.getResource("/resources/lobo estrategista.png"));
+            icon = new ImageIcon(icon.getImage().getScaledInstance(this.frmRebornFightersLauncher.getWidth() - 30, 310, 1));
             JLabel label = new JLabel();
             label.setIcon(icon);
 
-            label.setBounds(0, 0, 540, 300);
+            label.setBounds(6, 36, this.frmRebornFightersLauncher.getWidth() - 30, 310);
             label.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-            panel.add(label);
-
-            frmRebornFightersLauncher.setVisible(true);
-            updateStatusLabel.setText("Game already updated.");
-            progressBar.setValue(100);
-            progressBar.setString(updateStatusLabel.getText());
+            label.setVisible(true);
+            this.backgroundPanel.add(label);
+            // updateStatusLabel.setText("Game already updated.");
+            // progressBar.setValue(100);
+            // progressBar.setString(updateStatusLabel.getText());
             updateStatusLabel.setForeground(Color.WHITE);
             btnNewButton.setEnabled(true);
+            
+            // this.backgroundPanel.add(label);
         } else {
             updateStatusLabel.setText("Failed to initialize the launcher.");
             progressBar.setValue(100);
@@ -262,56 +278,16 @@ public class reborn extends JFrame implements ActionListener {
 
         }
 
-        this.frmRebornFightersLauncher.getContentPane().add(updateStatusLabel);
-        this.frmRebornFightersLauncher.getContentPane().add(progressBar);
-        this.frmRebornFightersLauncher.getContentPane().add(btnNewButton);
-        this.frmRebornFightersLauncher.getContentPane().add(BRRadioButton);
-        this.frmRebornFightersLauncher.getContentPane().add(EURadioButton);
-        this.frmRebornFightersLauncher.getContentPane().add(classLabel);
-        this.frmRebornFightersLauncher.getContentPane().add(resourceLabel);
-        this.frmRebornFightersLauncher.getContentPane().add(panel);
-        this.frmRebornFightersLauncher.getContentPane().add(backgroundPanel);
-        this.frmRebornFightersLauncher.setLocationRelativeTo(null);
+        ImageIcon background = new ImageIcon(reborn.class.getResource("/resources/background.png"));
 
-        BRRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ImageIcon radioIconUnselectedHover = new ImageIcon(
-                        reborn.class.getResource("/launcher/radiobutton_mouse.png"));
-                radioIconUnselectedHover = new ImageIcon(
-                        radioIconUnselectedHover.getImage().getScaledInstance(15, 14, 1));
-                BRRadioButton.setIcon(radioIconUnselectedHover);
-                BRRadioButton.setIconTextGap(2);
+        JLabel titleLabel = new JLabel(background);
+        titleLabel.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+        titleLabel.setVisible(true);
+        this.backgroundPanel.add(titleLabel);
 
-            }
+        this.frmRebornFightersLauncher.getContentPane().add(this.backgroundPanel);
+        this.frmRebornFightersLauncher.setVisible(true);
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ImageIcon radioIconUnselected = new ImageIcon(reborn.class.getResource("/launcher/radiobutton.png"));
-                radioIconUnselected = new ImageIcon(radioIconUnselected.getImage().getScaledInstance(14, 14, 1));
-                BRRadioButton.setIcon(radioIconUnselected);
-                BRRadioButton.setIconTextGap(2);
-
-            }
-        });
-
-        EURadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ImageIcon radioIconUnselectedHover = new ImageIcon(
-                        reborn.class.getResource("/launcher/radiobutton_mouse.png"));
-                radioIconUnselectedHover = new ImageIcon(
-                        radioIconUnselectedHover.getImage().getScaledInstance(15, 14, 1));
-                EURadioButton.setIcon(radioIconUnselectedHover);
-                EURadioButton.setIconTextGap(2);
-
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ImageIcon radioIconUnselected = new ImageIcon(reborn.class.getResource("/launcher/radiobutton.png"));
-                radioIconUnselected = new ImageIcon(radioIconUnselected.getImage().getScaledInstance(14, 14, 1));
-                EURadioButton.setIcon(radioIconUnselected);
-                EURadioButton.setIconTextGap(2);
-            }
-        });
-        btnNewButton.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
