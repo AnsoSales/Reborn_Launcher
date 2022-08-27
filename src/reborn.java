@@ -121,8 +121,8 @@ public class reborn extends JFrame implements ActionListener {
         // int width = 1920;
         int height = gd.getDisplayMode().getHeight();
         // int height = 1080;
-        System.out.println(width);
-        System.out.println(height);
+        // System.out.println(width);
+        // System.out.println(height);
         this.frmRebornFightersLauncher = new JFrame("Reborn Launcher");
         this.frmRebornFightersLauncher.setResizable(false);
 
