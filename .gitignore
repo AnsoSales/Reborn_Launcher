@@ -23,7 +23,7 @@
 *.tar.gz
 *.rar
 *.xml
-out/*
+out
 *iml
 .idea
 launcher/*
