@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -43,12 +44,23 @@ import javax.swing.border.EtchedBorder;
 public class reborn extends JFrame implements ActionListener {
 
     private static final String testURL = "https://www.google.com.br";
+
     private JRadioButton EURadioButton;
+    
+    private JRadioButton BRRadioButton;
+    
+    private JLabel TextButton;
+
     private JPanel backgroundPanel;
-    private JRadioButton BRRadioButton ;;
+
+    private JRadioButton autoStartButton;
+    
     private JLabel updateStatusLabel = new JLabel("Checking for updates");
+    
     private JButton btnNewButton ;
+    
     private ButtonGroup Gbutton = new ButtonGroup();
+    
     private JProgressBar progressBar = new JProgressBar(0, 100);
 
     // public JSONArray images;
@@ -118,11 +130,9 @@ public class reborn extends JFrame implements ActionListener {
         
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
-        // int width = 1920;
+
         int height = gd.getDisplayMode().getHeight();
-        // int height = 1080;
-        // System.out.println(width);
-        // System.out.println(height);
+        
         this.frmRebornFightersLauncher = new JFrame("Reborn Launcher");
         this.frmRebornFightersLauncher.setResizable(false);
 
@@ -210,41 +220,46 @@ public class reborn extends JFrame implements ActionListener {
         ImageIcon radioIconRollover = new ImageIcon(reborn.class.getResource("/resources/checkbox_off1.png"));
 
         ImageIcon radioIconRolloverSelected = new ImageIcon(reborn.class.getResource("/resources/checkbox_on1.png"));
-        this.BRRadioButton = new JRadioButton("BR Server");
-        this.BRRadioButton.setBounds(59, 350, 100, 30);
-        Gbutton.add(BRRadioButton);
-       
+
+        this.BRRadioButton = new JRadioButton();
+        this.BRRadioButton.setBounds(120, (this.frmRebornFightersLauncher.getHeight() - 104 - 16), 16, 16);
+        
         this.BRRadioButton.setFocusPainted(false);
         this.BRRadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
         this.BRRadioButton.setSelected(true);
         this.BRRadioButton.setForeground(Color.BLACK);
         this.BRRadioButton.setOpaque(false);
         this.BRRadioButton.setContentAreaFilled(true);
-
-        this.BRRadioButton.setBackground(Color.GRAY);
-
         this.BRRadioButton.setVerticalAlignment(0);
         this.BRRadioButton.setHorizontalAlignment(0);
-
         this.BRRadioButton.setIcon(radioIconUnselected);
         this.BRRadioButton.setSelectedIcon(radioIconSelected);
         this.BRRadioButton.setRolloverIcon(radioIconRollover);
         this.BRRadioButton.setRolloverSelectedIcon(radioIconRolloverSelected);
         this.BRRadioButton.setVisible(true);
-        this.backgroundPanel.add(this.BRRadioButton);
 
-        this.EURadioButton = new JRadioButton("EU Server");
-        Gbutton.add(EURadioButton);
-        this.EURadioButton.setBounds(60, 370, 100, 30);
+        this.backgroundPanel.add(this.BRRadioButton);
+        fontsize = 13;
+        this.TextButton = new JLabel("BR Server");
+        this.TextButton.setFont(new Font(fonte, stylefont, fontsize));
+        // this.TextButton.setSize;
+        this.TextButton.setForeground(Color.DARK_GRAY);
+        this.TextButton.setBounds(35, (this.frmRebornFightersLauncher.getHeight() - 104 - 18), 100, 16);
+        this.TextButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.TextButton.setHorizontalAlignment(0);    
+        this.TextButton.setVisible(true);
+        
+        this.backgroundPanel.add(this.TextButton);
+        
+        this.EURadioButton = new JRadioButton();
+        this.EURadioButton.setBounds(120, (this.frmRebornFightersLauncher.getHeight() - 104), 16, 16);
         this.EURadioButton.setFocusPainted(false);
         this.EURadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
         this.EURadioButton.setVerticalAlignment(0);
         this.EURadioButton.setHorizontalAlignment(0);
-
-        this.EURadioButton.setForeground(Color.BLACK);
+        
         this.EURadioButton.setOpaque(false);
         this.EURadioButton.setContentAreaFilled(true);
-
         this.EURadioButton.setIcon(radioIconUnselected);
         this.EURadioButton.setSelectedIcon(radioIconSelected);
         this.EURadioButton.setRolloverIcon(radioIconRollover);
@@ -252,6 +267,56 @@ public class reborn extends JFrame implements ActionListener {
 
         this.backgroundPanel.add(this.EURadioButton);
 
+        this.TextButton = new JLabel("EU Server");
+        this.TextButton.setFont(new Font(fonte, stylefont, fontsize));
+        this.TextButton.setForeground(Color.DARK_GRAY);
+        this.TextButton.setBounds(35, (this.frmRebornFightersLauncher.getHeight() - 104 ), 100, 16);
+        this.TextButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.TextButton.setHorizontalAlignment(0);
+      
+        this.backgroundPanel.add(this.TextButton);
+
+        ImageIcon radioIconUnselectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_off0.png"));
+        
+        ImageIcon radioIconSelectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_on0.png"));
+
+        ImageIcon radioIconRolloverFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_off1.png"));
+
+        ImageIcon radioIconRolloverSelectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_on1.png"));
+
+        this.autoStartButton = new JRadioButton();
+        this.autoStartButton.setBounds((this.frmRebornFightersLauncher.getWidth() - 130 ), (this.frmRebornFightersLauncher.getHeight() - 104), 16, 16);
+        this.autoStartButton.setFocusPainted(false);
+        this.autoStartButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.autoStartButton.setVerticalAlignment(0);
+        this.autoStartButton.setHorizontalAlignment(0);
+        
+        this.autoStartButton.setOpaque(false);
+        this.autoStartButton.setContentAreaFilled(true);
+        this.autoStartButton.setIcon(radioIconUnselectedFlip);
+        this.autoStartButton.setSelectedIcon(radioIconSelectedFlip);
+        this.autoStartButton.setRolloverIcon(radioIconRolloverFlip);
+        this.autoStartButton.setRolloverSelectedIcon(radioIconRolloverSelectedFlip);
+        this.autoStartButton.addActionListener(this);
+
+        this.backgroundPanel.add(this.autoStartButton);
+        
+        this.TextButton = new JLabel("Auto Start");
+        this.TextButton.setFont(new Font(fonte, stylefont, fontsize));
+        this.TextButton.setForeground(Color.DARK_GRAY);
+        this.TextButton.setBounds((this.frmRebornFightersLauncher.getWidth() - 130 ), (this.frmRebornFightersLauncher.getHeight() - 104 ), 100, 16);
+        this.TextButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.TextButton.setHorizontalAlignment(0);
+
+        this.backgroundPanel.add(this.TextButton);
+
+        // this.autoStartButton = new 
+        Gbutton.add(BRRadioButton);
+        Gbutton.add(EURadioButton);
+
+        this.backgroundPanel.add(this.TextButton);
+        
+        
         if (netIsAvailable()) {
             ImageIcon icon = new ImageIcon(reborn.class.getResource("/resources/lobo estrategista.png"));
             icon = new ImageIcon(icon.getImage().getScaledInstance(this.frmRebornFightersLauncher.getWidth() - 30, 310, 1));
@@ -292,8 +357,21 @@ public class reborn extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        if (this.EURadioButton.isSelected()) {
+        
+        // if (this.autoStartButton.isSelected()) {
+        //     try {
+        //         File configfile = new File("config.txt");
+        //         Scanner myReader = new Scanner(configfile);
+        //         System.out.print("aqui");
+        //         Process process = (new ProcessBuilder(new String[] { "amped.exe" })).start();
+        //         System.exit(0);
+                
+        //     } catch (Exception e1) {
+        //         e1.printStackTrace();
+        //     }
+        // }
 
+        if (this.EURadioButton.isSelected()) {
             Path brsetting = Paths.get("./conf/setting-br.kar");
             Path eusetting = Paths.get("./conf/setting-eu.kar");
             Path setting = Paths.get("./conf/setting.kar");
@@ -303,13 +381,24 @@ public class reborn extends JFrame implements ActionListener {
                     if (Files.exists(brsetting)) { // eu server was the last played
                         // Files.move(source, target, options);
                         // brsetting.renameTo(setting);
+                        if (this.autoStartButton.isSelected()) {
+                            try {
+                                Thread.sleep(5000L);
+                                System.out.print("aqui");
+                                Process process = (new ProcessBuilder(new String[] { "amped.exe" })).start();
+                                System.exit(0);
+                                
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                        }else{
                         Process process = (new ProcessBuilder(new String[] { "amped.exe" })).start();
                         // temprename.delete();
 
                         // setting2.delete();
                         // brsetting.delete();
                         System.exit(0);
-
+                        }
                     } else if (Files.exists(eusetting)) { // br server was the last played
                         Files.move(setting, brsetting, StandardCopyOption.REPLACE_EXISTING);
                         Files.move(eusetting, setting, StandardCopyOption.REPLACE_EXISTING);
@@ -359,6 +448,8 @@ public class reborn extends JFrame implements ActionListener {
                 e1.printStackTrace();
             }
         }
+
+      
 
     }
 
