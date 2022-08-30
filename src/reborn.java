@@ -190,10 +190,10 @@ public class reborn extends JFrame implements ActionListener {
         this.btnNewButton.setLocation(this.frmRebornFightersLauncher.getWidth() / 2 - this.btnNewButton.getWidth() / 2,
                 this.frmRebornFightersLauncher.getHeight() - 105 - this.btnNewButton.getHeight() / 2);
         this.btnNewButton.setEnabled(false);
-        this.btnNewButton.setForeground(Color.decode("#808080"));
+        this.btnNewButton.setForeground(Color.DARK_GRAY);
         this.btnNewButton.setBackground(Color.decode("#f0f0f0"));
         this.btnNewButton.setOpaque(true);
-        this.btnNewButton.setContentAreaFilled(true);
+        // this.btnNewButton.setContentAreaFilled(true);
         this.btnNewButton.setIcon(icone);
         this.btnNewButton.addActionListener(this);
         this.btnNewButton.setVisible(true);
@@ -276,39 +276,39 @@ public class reborn extends JFrame implements ActionListener {
       
         this.backgroundPanel.add(this.TextButton);
 
-        ImageIcon radioIconUnselectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_off0.png"));
+        // ImageIcon radioIconUnselectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_off0.png"));
         
-        ImageIcon radioIconSelectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_on0.png"));
+        // ImageIcon radioIconSelectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_on0.png"));
 
-        ImageIcon radioIconRolloverFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_off1.png"));
+        // ImageIcon radioIconRolloverFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_off1.png"));
 
-        ImageIcon radioIconRolloverSelectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_on1.png"));
+        // ImageIcon radioIconRolloverSelectedFlip = new ImageIcon(reborn.class.getResource("/resources/checkbox_flip_on1.png"));
 
-        this.autoStartButton = new JRadioButton();
-        this.autoStartButton.setBounds((this.frmRebornFightersLauncher.getWidth() - 130 ), (this.frmRebornFightersLauncher.getHeight() - 104), 16, 16);
-        this.autoStartButton.setFocusPainted(false);
-        this.autoStartButton.setHorizontalTextPosition(SwingConstants.LEFT);
-        this.autoStartButton.setVerticalAlignment(0);
-        this.autoStartButton.setHorizontalAlignment(0);
+        // this.autoStartButton = new JRadioButton();
+        // this.autoStartButton.setBounds((this.frmRebornFightersLauncher.getWidth() - 130 ), (this.frmRebornFightersLauncher.getHeight() - 104), 16, 16);
+        // this.autoStartButton.setFocusPainted(false);
+        // this.autoStartButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        // this.autoStartButton.setVerticalAlignment(0);
+        // this.autoStartButton.setHorizontalAlignment(0);
         
-        this.autoStartButton.setOpaque(false);
-        this.autoStartButton.setContentAreaFilled(true);
-        this.autoStartButton.setIcon(radioIconUnselectedFlip);
-        this.autoStartButton.setSelectedIcon(radioIconSelectedFlip);
-        this.autoStartButton.setRolloverIcon(radioIconRolloverFlip);
-        this.autoStartButton.setRolloverSelectedIcon(radioIconRolloverSelectedFlip);
-        this.autoStartButton.addActionListener(this);
+        // this.autoStartButton.setOpaque(false);
+        // this.autoStartButton.setContentAreaFilled(true);
+        // this.autoStartButton.setIcon(radioIconUnselectedFlip);
+        // this.autoStartButton.setSelectedIcon(radioIconSelectedFlip);
+        // this.autoStartButton.setRolloverIcon(radioIconRolloverFlip);
+        // this.autoStartButton.setRolloverSelectedIcon(radioIconRolloverSelectedFlip);
+        // this.autoStartButton.addActionListener(this);
 
-        this.backgroundPanel.add(this.autoStartButton);
+        // this.backgroundPanel.add(this.autoStartButton);
         
-        this.TextButton = new JLabel("Auto Start");
-        this.TextButton.setFont(new Font(fonte, stylefont, fontsize));
-        this.TextButton.setForeground(Color.DARK_GRAY);
-        this.TextButton.setBounds((this.frmRebornFightersLauncher.getWidth() - 130 ), (this.frmRebornFightersLauncher.getHeight() - 104 ), 100, 16);
-        this.TextButton.setHorizontalTextPosition(SwingConstants.LEFT);
-        this.TextButton.setHorizontalAlignment(0);
+        // this.TextButton = new JLabel("Auto Start");
+        // this.TextButton.setFont(new Font(fonte, stylefont, fontsize));
+        // this.TextButton.setForeground(Color.DARK_GRAY);
+        // this.TextButton.setBounds((this.frmRebornFightersLauncher.getWidth() - 130 ), (this.frmRebornFightersLauncher.getHeight() - 104 ), 100, 16);
+        // this.TextButton.setHorizontalTextPosition(SwingConstants.LEFT);
+        // this.TextButton.setHorizontalAlignment(0);
 
-        this.backgroundPanel.add(this.TextButton);
+        // this.backgroundPanel.add(this.TextButton);
 
         // this.autoStartButton = new 
         Gbutton.add(BRRadioButton);
@@ -318,7 +318,7 @@ public class reborn extends JFrame implements ActionListener {
         
         
         if (netIsAvailable()) {
-            ImageIcon icon = new ImageIcon(reborn.class.getResource("/resources/lobo estrategista.png"));
+            ImageIcon icon = new ImageIcon(reborn.class.getResource("/resources/bkg.png"));
             icon = new ImageIcon(icon.getImage().getScaledInstance(this.frmRebornFightersLauncher.getWidth() - 30, 310, 1));
             JLabel label = new JLabel();
             label.setIcon(icon);
@@ -327,9 +327,10 @@ public class reborn extends JFrame implements ActionListener {
             label.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
             label.setVisible(true);
             this.backgroundPanel.add(label);
-            // updateStatusLabel.setText("Game already updated.");
-            // progressBar.setValue(100);
-            // progressBar.setString(updateStatusLabel.getText());
+            updateStatusLabel.setText("Game already updated.");
+            progressBar.setValue(100);
+            progressBar.setIndeterminate(false);
+            progressBar.setString(updateStatusLabel.getText());
             updateStatusLabel.setForeground(Color.WHITE);
             btnNewButton.setEnabled(true);
             
@@ -372,6 +373,7 @@ public class reborn extends JFrame implements ActionListener {
         // }
 
         if (this.EURadioButton.isSelected()) {
+
             Path brsetting = Paths.get("./conf/setting-br.kar");
             Path eusetting = Paths.get("./conf/setting-eu.kar");
             Path setting = Paths.get("./conf/setting.kar");
@@ -381,24 +383,13 @@ public class reborn extends JFrame implements ActionListener {
                     if (Files.exists(brsetting)) { // eu server was the last played
                         // Files.move(source, target, options);
                         // brsetting.renameTo(setting);
-                        if (this.autoStartButton.isSelected()) {
-                            try {
-                                Thread.sleep(5000L);
-                                System.out.print("aqui");
-                                Process process = (new ProcessBuilder(new String[] { "amped.exe" })).start();
-                                System.exit(0);
-                                
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                        }else{
                         Process process = (new ProcessBuilder(new String[] { "amped.exe" })).start();
                         // temprename.delete();
 
                         // setting2.delete();
                         // brsetting.delete();
                         System.exit(0);
-                        }
+
                     } else if (Files.exists(eusetting)) { // br server was the last played
                         Files.move(setting, brsetting, StandardCopyOption.REPLACE_EXISTING);
                         Files.move(eusetting, setting, StandardCopyOption.REPLACE_EXISTING);
