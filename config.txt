@@ -1,2 +1,0 @@
-autostart=true
-server=eu
